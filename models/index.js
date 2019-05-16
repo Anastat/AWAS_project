@@ -1,4 +1,20 @@
-'use strict';
+if (!global.hasOwnProperty('db')) {
+  var Sequelize = require('sequelize')
+    , sequelize = null
+
+  
+    // the application is executed on Heroku ... use the postgres database
+    sequelize = new Sequelize(process.env.DATABASE_URL, {
+      dialect:  'postgres',
+      protocol: 'postgres',
+      port:     match[4],
+      host:     match[3],
+      logging:  true //false
+    })
+  }
+    module.exports = global.db;
+ 
+/*'use strict';
 
 const fs = require('fs');
 const path = require('path');
@@ -34,4 +50,4 @@ Object.keys(db).forEach(modelName => {
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
-module.exports = db;
+module.exports = db;*/
