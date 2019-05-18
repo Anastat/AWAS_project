@@ -1,25 +1,29 @@
 const fs = require('fs');
 
 module.exports = {
-  development: {
-    username: 'jack',
-    password: '',
-    database: 'jack',
-    host: '127.0.0.1',
+
+  'development': {
+    username: 'hfxtsnyxfoktse',
+    password: '2a348570030a038e7b358a49370d1b7718a093bbbb671539959930dd8e2e10e8',
+    database: 'd1im5b5t0mehrn',
+    host: 'ec2-46-137-188-105.eu-west-1.compute.amazonaws.com',
     dialect: 'postgres'
   },
   test: {
-    username: 'database_test',
-    password: null,
-    database: 'database_test',
-    host: '127.0.0.1',
+    username: 'hfxtsnyxfoktse',
+    password: '2a348570030a038e7b358a49370d1b7718a093bbbb671539959930dd8e2e10e8',
+    database: 'd1im5b5t0mehrn',
+    host: 'ec2-46-137-188-105.eu-west-1.compute.amazonaws.com',
     dialect: 'postgres'
   },
   production: {
-    username: process.env.DB_USERNAME,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_NAME,
-    host: process.env.DB_HOSTNAME,
+    username: 'hfxtsnyxfoktse',
+    password: '2a348570030a038e7b358a49370d1b7718a093bbbb671539959930dd8e2e10e8',
+    database: 'd1im5b5t0mehrn',
+    host: 'ec2-46-137-188-105.eu-west-1.compute.amazonaws.com',
     dialect: 'postgres',
+    dialectOptions: {
+      ssl: true
+    }
   }
 };
