@@ -5,7 +5,6 @@ exports.getAddProduct = (req, res, next) => {
   res.render('admin/edit-product', {
     pageTitle: 'Add Product',
     path: '/add-product',
-    isAuthenticated: true,
     editing: false
   });
 };
@@ -18,7 +17,7 @@ exports.postAddProduct = (req, res, next) => {
   Product.create({
       title: title,
       price: price,
-      image_url: imageUrl,
+      imageUrl: imageUrl,
       description: description
     })
     .then(result => {
@@ -44,7 +43,6 @@ exports.getEditProduct = (req, res, next) => {
         pageTitle: 'Edit Product',
         path: '/edit-product',
         editing: editMode,
-        isAuthenticated: true,
         product: product
       });
     })
@@ -62,24 +60,11 @@ exports.postEditProduct = (req, res, next) => {
       product.title = updatedTitle;
       product.price = updatedPrice;
       product.description = updatedDesc;
-      product.image_url = updatedImageUrl;
+      product.imageUrl = updatedImageUrl;
       return product.save();
     })
     .then(result => {
       res.redirect('/');
-    })
-    .catch(err => console.log(err));
-};
-
-exports.getProducts = (req, res, next) => {
-  Product.findAll()
-    .then(products => {
-      res.render('public/index', {
-        prods: products,
-        pageTitle: 'Admin Products',
-        path: '/',
-        isAuthenticated: true,
-      });
     })
     .catch(err => console.log(err));
 };

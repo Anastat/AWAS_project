@@ -1,25 +1,36 @@
 <%- include('../includes/head.ejs') %>
-    <link rel="stylesheet" href="/css/forms.css">
-    <link rel="stylesheet" href="/css/auth.css">
 </head>
 
 <body>
    <%- include('../includes/navigation.ejs') %>
+   <link rel="stylesheet" href="/css/forms.css">
 
     <main>
         <% if (errorMessage) { %>
             <div class="user-message user-message--error"><%= errorMessage %></div>
         <% } %>
-        <form class="login-form" action="/login" method="POST">
-            <div class="form-control">
-                <label for="username">Username</label>
-                <input type="username" name="username" id="username">
+
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+                    <div class="card card-auth my-5">
+                        <div class="card-body">
+                            <h5 class="card-title text-center">Sign In</h5>
+                            <form class="form-auth" action="/login" method="POST">
+                                <div class="form-label-group">
+                                    <input type="text" id="username" class="form-control" placeholder="Username" name="username" required autofocus>
+                                    <label for="username">Username</label>
+                                </div>
+
+                                <div class="form-label-group">
+                                    <input type="password" id="inputPassword" class="form-control" name="password" placeholder="Password" required>
+                                    <label for="inputPassword">Password</label>
+                                </div>
+                                <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Sign in</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="form-control">
-                <label for="password">Password</label>
-                <input type="password" name="password" id="password">
-            </div>
-            <button class="btn" type="submit">Login</button>
-        </form>
-    </main>
+        </div>
 <%- include('../includes/end.ejs') %>

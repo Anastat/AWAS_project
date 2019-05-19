@@ -3,15 +3,15 @@ const path = require('path');
 const express = require('express');
 
 const authorization = require('../middleware/authorization');
-const shopController = require('../controllers/shop');
+const userController = require('../controllers/user');
 
 const router = express.Router();
 
 // only user accessible routes
-router.get('/cart', shopController.getCart);
-router.post('/cart', shopController.postCart);
-router.post('/cart-delete-item', shopController.postCartDeleteProduct);
-/*router.get('/orders', shopController.getOrders);
-router.get('/checkout', shopController.getCheckout);*/
+router.get('/cart', authorization.isUser, userController.getCart);
+router.post('/cart', authorization.isUser, userController.postCart);
+router.post('/cart-delete-item', authorization.isUser, userController.postCartDeleteProduct);
+/*router.get('/orders', userController.getOrders);
+router.get('/checkout', userController.getCheckout);*/
 
 module.exports = router;

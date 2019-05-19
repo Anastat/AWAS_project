@@ -4,7 +4,7 @@ module.exports = (sequelize, DataTypes) => {
     title: DataTypes.STRING,
     price: DataTypes.FLOAT,
     description: DataTypes.TEXT,
-    image_url: DataTypes.STRING
+    imageUrl: DataTypes.STRING
   }, {
     timestamps: false
   });

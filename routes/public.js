@@ -2,12 +2,12 @@ const path = require('path');
 
 const express = require('express');
 
-const shopController = require('../controllers/shop');
+const publicController = require('../controllers/public');
 
 const router = express.Router();
 
 // visible to everyone routes
-router.get('/', shopController.getIndex);
-router.get('/products/:productId', shopController.getProduct);
+router.get('/', publicController.getIndex);
+router.get('/products', publicController.getProduct);
 
 module.exports = router;

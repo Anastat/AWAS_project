@@ -53,15 +53,15 @@ app.use((req, res, next) => {
   })
 })
 
-app.use((req, res, next) => {
-  if (req.session.user) next();
-  (db.User).findByPk("test").then(user => {
-    req.session.user = user;
-    next();
-  });
-})
+// app.use((req, res, next) => {
+//   if (req.session.user) return next();
+//   (db.User).findByPk("test").then(user => {
+//     req.session.user = user;
+//     next();
+//   });
+// })
 
-app.use('/admin', adminRoutes);
+app.use(adminRoutes);
 app.use(publicRoutes);
 app.use(authRoutes);
 app.use(userRoutes);

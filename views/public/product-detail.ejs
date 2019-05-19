@@ -1,18 +1,36 @@
 <%- include('../includes/head.ejs') %>
-    </head>
+	</head>
 
-    <body>
-        <%- include('../includes/navigation.ejs') %>
-        <main class="centered">
-            <h1><%= product.title %></h1>
-            <hr>
-            <div class="image">
-                <img src="<%= product.image_url %>" alt="<%= product.title %>">
-            </div>
-            <h2><%= product.price %></h2>
-            <p><%= product.description %></p>
-            <% if (locals.isAuthenticated && !locals.is_admin) { %>
-                <%- include('../includes/add-to-cart.ejs', {product: product}) %>
+	<body>
+			<%- include('../includes/navigation.ejs') %>
+			<main>
+					<div class="container">
+              <% if (product) { %>
+              
+                <div class="row">
+                  <div class="col-lg-6">
+                    <img style="max-width: 100%" src="<%= product.imageUrl %>" alt="<%= product.title %>">
+                  </div>
+                  <div class="col-lg-6">
+                    <h2><%= product.title %></h2>
+                    <h4>price $<%= product.price %></h6>
+
+                    <% if (locals.isAuthenticated) { %>
+                        <% if (!locals.isAdmin) { %> <%- include('../includes/add-to-cart.ejs', {product: product}) %> 
+                        <% } else { %> <a href="/edit-product/<%= product.id %>?edit=true" class="btn btn-primary">Edit</a> <% } %>
+                    <% } %>
+
+                    <p><%= product.description %></p>
+                  </div>
+                
+                </div>
+
+            <% } else { %>
+                <h1>Sorry, product not found</h1>
+                <p>Product not exist or has been removed</p>
+                <a href="/">Return to the shop</a>
             <% } %>
-        </main>
-        <%- include('../includes/end.ejs') %>
+					</div>
+					
+			</main>
+			<%- include('../includes/end.ejs') %>

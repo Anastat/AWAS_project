@@ -4,46 +4,35 @@
 
     <body>
         <%- include('../includes/navigation.ejs') %>
-
             <main>
+                <div class="container">
+                    <% if (!query) { %>
+                    <div class="row justify-content-end">
+                        <div class="col-md-5 col-lg-4">
+                            <form class="form-search form-inline">
+                                <div class="input-group" style="width: 100%!important">
+                                    <input name="q" type="text" class="form-control" placeholder="Search..." /> 
+                                    <span class="input-group-btn">
+                                        <button type="submit" class="btn btn-primary">Search</button>
+                                    </span>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                <% } else { %>
+                    <h3>Results for <%- query %></h3>
+                <% } %>
                 <% if (prods.length > 0) { %>
-                    <div class="grid">
+                    <div class="row it" id="cont">
                         <% for (let product of prods) { %>
-                            <article class="card product-item">
-                                <header class="card__header">
-                                    <h1 class="product__title">
-                                        <%= product.title %>
-                                    </h1>
-                                </header>
-                                <div class="card__image">
-                                    <img src="<%= product.image_url %>" alt="<%= product.title %>">
-                                </div>
-                                <div class="card__content">
-                                    <h2 class="product__price">$
-                                        <%= product.price %>
-                                    </h2>
-                                    <p class="product__description">
-                                        <%= product.description %>
-                                    </p>
-                                </div>
-                                <div class="card__actions">
-                                    <a href="/products/<%= product.id %>" class="btn">Details</a>
-                                    <% if (locals.isAuthenticated) { %>
-                                        <% if (locals.isAdmin) { %>
-                                            <div class="card__actions">
-                                                <a href="/admin/edit-product/<%= product.id %>?edit=true" class="btn">Edit</a>
-                                            </div>
-                                        <% } else { %>
-                                            <%- include('../includes/add-to-cart.ejs', {product: product}) %>
-                                        <% } %>  
-                                    <% } %>
-            
-                                </div>
-                            </article>
-                            <% } %>
+                            <div class="col-md-4">
+                                <%- include('../includes/product-card.ejs', {product: product}); %>
+                            </div>
+                        <% } %>
                     </div>
                     <% } else { %>
                         <h1>No Products Found!</h1>
-                        <% } %>
+                    <% } %>
+                </div>
             </main>
             <%- include('../includes/end.ejs') %>

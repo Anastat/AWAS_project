@@ -1,0 +1,17 @@
+<article class="card card-product">
+    <img class="card-img-top" src="<%= product.imageUrl %>" alt="<%= product.title %>">
+    <div class="card-body">
+        <h5 class="card-title"><%= product.title %></h5>
+        <h6 class="card-subtitle mb-2 text-muted">$ <%= product.price %></h6>
+        <div class="card__actions">
+        <a class="card-link" href="/products?productId=<%= product.id %>" class="btn">Details</a>
+        <% if (locals.isAuthenticated) { %>
+            <% if (locals.isAdmin) { %>
+                <a class="card-link" href="/edit-product/<%= product.id %>?edit=true" class="btn">Edit</a>
+            <% } else { %>
+                <%- include('../includes/add-to-cart.ejs', {product: product}) %>
+            <% } %>  
+        <% } %>
+        </div>
+    </div>
+</article>

@@ -1,42 +1,40 @@
-<div class="backdrop"></div>
-<header class="main-header">
-    <button id="side-menu-toggle">Menu</button>
-    <nav class="main-header__nav">
-        <ul class="main-header__item-list">
-            <li class="main-header__item">
-                <a class="<%= path === '/' ? 'active' : '' %>" href="/">Shop</a>
-            </li>
-            <% if (locals.isAuthenticated) { %>
-                <% if (!locals.isAdmin) { %> 
-                    <li class="main-header__item">
-                        <a class="<%= path === '/cart' ? 'active' : '' %>" href="/cart">Cart</a>
+<header class="navbar navbar-expand navbar-dark bg-dark">
+    <div class="container">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link <%= (!path || path === '/') ? 'active' : '' %>" href="/">Shop</a>
+                </li>
+                <% if (locals.isAuthenticated) { %>
+                    <% if (!locals.isAdmin) { %> 
+                        <li class="nav-item">
+                            <a class="nav-link nav-link <%= path === '/cart' ? 'active' : '' %>" href="/cart">Cart</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link <%= path === '/orders' ? 'active' : '' %>" href="/orders">Orders</a>
+                        </li>
+                    <% } else { %>
+                    <li class="nav-item">
+                        <a class="nav-link <%= path === '/add-product' ? 'active' : '' %>" href="/add-product">Add Product
+                        </a>
                     </li>
-                    <li class="main-header__item">
-                        <a class="<%= path === '/orders' ? 'active' : '' %>" href="/orders">Orders</a>
+                    <% } %>
+                <% } %>
+            </ul>
+            <ul class="nav navbar-nav ml-auto">
+                <% if (!locals.isAuthenticated) { %>
+                    <li class="nav-item">
+                        <a class="nav-link <%= path === '/login' ? 'active' : '' %>" href="/login">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link <%= path === '/signup' ? 'active' : '' %>" href="/signup">Signup</a>
                     </li>
                 <% } else { %>
-                <li class="main-header__item">
-                    <a class="<%= path === '/admin/add-product' ? 'active' : '' %>" href="/admin/add-product">Add Product
-                    </a>
-                </li>
+                    <li class="nav-item">
+                        <form action="/logout" method="post">
+                            <button class="btn btn-link nav-link" type="submit">Logout</button>
+                        </form>
+                    </li>
                 <% } %>
-            <% } %>
-        </ul>
-        <ul class="main-header__item-list">
-            <% if (!locals.isAuthenticated) { %>
-                <li class="main-header__item">
-                    <a class="<%= path === '/login' ? 'active' : '' %>" href="/login">Login</a>
-                </li>
-                <li class="main-header__item">
-                    <a class="<%= path === '/signup' ? 'active' : '' %>" href="/signup">Signup</a>
-                </li>
-            <% } else { %>
-                <li class="main-header__item">
-                    <form action="/logout" method="post">
-                        <button type="submit">Logout</button>
-                    </form>
-                </li>
-            <% } %>
-        </ul>
-    </nav>
+            </ul>
+    </div>
 </header>

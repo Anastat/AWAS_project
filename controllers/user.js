@@ -2,40 +2,11 @@ const models = require('../models');
 const Product = models.Product;
 const Cart = models.Cart;
 
-exports.getProduct = (req, res, next) => {
-  const prodId = req.params.productId;
-  Product.findByPk(prodId)
-    .then(product => {
-      res.render('public/product-detail', {
-        product: product,
-        isAuthenticated: true,
-        pageTitle: product.title,
-        path: '/'
-      });
-    })
-    .catch(err => console.log(err));
-};
-
-exports.getIndex = (req, res, next) => {
-  Product.findAll()
-    .then(products => {
-      console.log(res.local);
-      res.render('public/index', {
-        prods: products,
-        pageTitle: 'Shop',
-        path: '/'
-      });
-    })
-    .catch(err => {
-      console.log(err);
-    });
-};
-
 exports.getCart = (req, res, next) => {
   res.user
     .getCart()
     .then(cart => {
-      if (!cart) return req.user.createCart({total: 0});
+      if (!cart) return res.user.createCart({total: 0});
       return cart;
     })
     .then(cart => {
@@ -47,7 +18,6 @@ exports.getCart = (req, res, next) => {
             pageTitle: 'Your Cart',
             products: products,
             cart: cart,
-            isAuthenticated: true,
           });
         })
       .catch(err => console.log(err));
@@ -83,10 +53,6 @@ exports.postCart = (req, res, next) => {
       return fetchedCart.addProduct(product, {through: { quantity: newQuantity }})
     })
     .then(() => {
-      fetchedCart.total = (fetchedCart.total || 0 )+ prodPrice;
-      fetchedCart.save();
-    })
-    .then(() => {
       res.redirect('/cart');
     })
     .catch(err => console.log(err));
@@ -118,7 +84,7 @@ exports.postOrder = (req, res, next) => {
       return cart.getProducts();
     })
     .then(products => {
-      return req.user
+      return res.user
         .createOrder()
         .then(order => {
           return order.addProducts(
