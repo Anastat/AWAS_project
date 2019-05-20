@@ -68,6 +68,7 @@ app.use(userRoutes);
 
 app.use(errorController.get404);
 
+const port = process.env.PORT || 3000;
 
 db.reset()
   .then(result => {
@@ -77,7 +78,7 @@ db.reset()
     if (!user) return db.User.create({ username: 'test', password: 'hey', is_admin: true });  
   })
   .then(user => { 
-    app.listen(3000);
+    app.listen(port);
     console.log("server listening"); 
   });
 
