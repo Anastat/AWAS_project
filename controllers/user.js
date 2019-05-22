@@ -20,14 +20,13 @@ exports.getCart = (req, res, next) => {
             cart: cart,
           });
         })
-      .catch(err => console.log(err));
+        .catch(err =>{ console.log(err); res.redirect('/'); });
     })
-    .catch(err => console.log(err));
+    .catch(err =>{ console.log(err); res.redirect('/'); });
 };
 
 exports.postCart = (req, res, next) => {
   const prodId = req.body.productId;
-  const prodPrice = req.body.prodPrice;
   let fetchedCart;
   let newQuantity = 1;
   res.user
@@ -55,7 +54,7 @@ exports.postCart = (req, res, next) => {
     .then(() => {
       res.redirect('/cart');
     })
-    .catch(err => console.log(err));
+    .catch(err =>{ console.log(err); res.redirect('/'); });
 };
 
 exports.postCartDeleteProduct = (req, res, next) => {
@@ -72,7 +71,7 @@ exports.postCartDeleteProduct = (req, res, next) => {
     .then(result => {
       res.redirect('/cart');
     })
-    .catch(err => console.log(err));
+    .catch(err =>{ console.log(err); res.redirect('/'); });
 };
 
 exports.postOrder = (req, res, next) => {
@@ -94,7 +93,7 @@ exports.postOrder = (req, res, next) => {
             })
           );
         })
-        .catch(err => console.log(err));
+        .catch(err =>{ console.log(err); res.redirect('/'); });
     })
     .then(result => {
       return fetchedCart.setProducts(null);
@@ -102,7 +101,7 @@ exports.postOrder = (req, res, next) => {
     .then(result => {
       res.redirect('/orders');
     })
-    .catch(err => console.log(err));
+    .catch(err =>{ console.log(err); res.redirect('/'); });
 };
 
 exports.getOrders = (req, res, next) => {
@@ -116,5 +115,5 @@ exports.getOrders = (req, res, next) => {
         orders: orders
       });
     })
-    .catch(err => console.log(err));
+    .catch(err =>{ console.log(err); res.redirect('/'); });
 };

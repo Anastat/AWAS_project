@@ -6,16 +6,15 @@
    <link rel="stylesheet" href="/css/forms.css">
 
     <main>
-        <% if (errorMessage) { %>
-            <div class="user-message user-message--error"><%= errorMessage %></div>
-        <% } %>
-
         <div class="container">
             <div class="row">
                 <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
                     <div class="card card-auth my-5">
                         <div class="card-body">
                             <h5 class="card-title text-center">Sign In</h5>
+                             <% if (errorMessage) { %>
+                                <div class="alert alert-danger" role="alert"><%= errorMessage %></div>
+                            <% } %>
                             <form class="form-auth" action="/login" method="POST">
                                 <div class="form-label-group">
                                     <input type="text" id="username" class="form-control" placeholder="Username" name="username" required autofocus>

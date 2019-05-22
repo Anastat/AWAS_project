@@ -1,0 +1,45 @@
+<%- include('../includes/head.ejs') %>
+<link rel="stylesheet" href="/css/forms.css">
+</head>
+
+<body>
+    <%- include('../includes/navigation.ejs') %>
+    <main>
+        <div class="container">
+          <div class="row">
+              <div class="col-sm-12 col-md-10 col-lg-8 mx-auto">
+                <% if (complete) { %>
+                  <div class="jumbotron">
+                    <h1 class="display-4">Thank you!</h1>
+                    <p class="lead">Our administrator will check the link you have sent</p>
+                    <hr class="my-4">
+                    <p>While you'll waiting, surf the <a href="/">shop</a>.</p>
+                  </div>
+                <% } else { %>
+                  <div class="card card-auth my-5">
+                      <div class="card-body">
+                          <h5 class="card-title text-center">Report a broken page</h5>
+                          <form class="form-auth" action="/report" method="POST">
+                              <p class="text-center">We'll consider only our site pages</p>
+                              <div class="form-label-group">
+                                  <input type="text" id="url" class="form-control" placeholder="Broken page url" name="url" required autofocus>
+                                  <label for="url">Broken page url</label>
+                              </div>
+
+                              <div class="form-label-group">
+                                  <textarea name="description" id="description" class="form-control" 
+                                      rows="5" placeholder="Description"
+                                      style="resize: none;"></textarea>
+                              </div>
+
+                              <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Send it</button>
+                          </form>
+                      </div>
+                  </div>
+                <% }%>
+              </div>
+            </div>
+        </div>
+    </main>
+
+<%- include('../includes/end.ejs') %>

@@ -13,12 +13,15 @@
                     <div class="card card-auth my-5">
                         <div class="card-body">
                             <h5 class="card-title text-center"><% if (editing) { %>Edit product<% } else { %>Add product<% } %></h5>
-                            <form action="/<% if (editing) { %>edit-product<% } else { %>add-product<% } %>" method="POST">
+                            <% if (errorMessage) { %>
+                                <div class="alert alert-danger" role="alert"><%= errorMessage %></div>
+                            <% } %>
+                            <form action="/<% if (editing) { %>edit-product?edit=true<% } else { %>add-product<% } %>" method="POST">
                                 <div class="form-label-group">
-                                    
+                                
                                     <input type="text" name="title" class="form-control" 
                                       placeholder="Product title" id="title"
-                                      value="<% if (editing) { %><%= product.title %><% } %>"
+                                      value="<% if (product) { %><%= product.title %><% } %>"
                                       required autofocus>
                                     <label for="title">Product title</label>
                                 </div>
@@ -26,7 +29,7 @@
                                 <div class="form-label-group">
                                     <input type="text" name="imageUrl" class="form-control" 
                                     placeholder="Product image" id="imageUrl" 
-                                    value="<% if (editing) { %><%= product.imageUrl %><% } %>"
+                                    value="<% if (product) { %><%= product.imageUrl %><% } %>"
                                     required>
                                     <label for="imageUrl">Image URL</label>
                                 </div>
@@ -34,7 +37,7 @@
                                 <div class="form-label-group">
                                     <input type="number" name="price" id="price"
                                      step="0.01"  placeholder="10.00" class="form-control" 
-                                     value="<% if (editing) { %><%= product.price %><% } %>"
+                                     value="<% if (product) { %><%= product.price %><% } %>"
                                      required>
                                     <label for="price">Price</label>
                                 </div>
@@ -42,8 +45,7 @@
                                 <div class="form-label-group">
                                     <textarea name="description" id="description" class="form-control" 
                                         rows="5" placeholder="Description"
-                                        style="resize: none;"><% if (editing) { %><%= product.description %><% } %></textarea>
-                                    
+                                        style="resize: none;"><% if (product) { %><%= product.description %><% } %></textarea>
                                 </div>
 
                                 <% if (editing) { %>

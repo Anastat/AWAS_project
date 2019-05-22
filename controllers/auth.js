@@ -4,12 +4,10 @@ const models = require('../models');
 const User = models.User;
 
 exports.getLogin = (req, res, next) => {
-  let message = req.flash('error');
-  message = message.length > 0 ? message[0] : null;
   res.render('auth/login', {
     path: '/login',
     pageTitle: 'Login',
-    errorMessage: message
+    errorMessage: null
   });
 };
 
@@ -19,7 +17,8 @@ exports.getSignup = (req, res, next) => {
   res.render('auth/signup', {
     path: '/signup',
     pageTitle: 'Signup',
-    errorMessage: message
+    errorMessage: message,
+    complete: false
   });
 };
 
@@ -28,14 +27,19 @@ exports.postLogin = (req, res, next) => {
   const password = req.body.password;
   User.findByPk(username)
     .then(user => {
-      if (!user) {
-        req.flash('error', 'Invalid email or password.');
-        return res.redirect('/login');  
-      }
+      var message = null;
+      if (!user) message = 'Invalid username or password.'; 
       // if password incorrect but user found add an extra space
-      if(!user.validPassword(password)) {
-        req.flash('error', 'Invalid  email or password.');
-        return res.redirect('/login'); 
+      console.log(user, user != null && !user.validPassword(password));
+      if(user != null && !user.validPassword(password)) {
+        message = 'Invalid  username or password.';
+      }
+      if ( message ) {
+        return res.render('auth/login', {
+          path: '/login',
+          pageTitle: 'Login',
+          errorMessage: message
+        });
       }
       req.session.isAuthenticated = true;
       req.session.isAdmin = user.is_admin;
@@ -44,7 +48,7 @@ exports.postLogin = (req, res, next) => {
         return res.redirect('/');
       });
     })
-    .catch(err => console.log(err));
+    .catch(err =>{ console.log(err); res.redirect('/'); });
 };
 
 exports.postSignup = (req, res, next) => {
@@ -62,11 +66,16 @@ exports.postSignup = (req, res, next) => {
         return res.redirect('/signup');
       }
       User.create({ username: username, password: password })
-      .then(result => { res.redirect('/login'); });
+        .then(result => { 
+          res.render('auth/signup', {
+            path: '/signup',
+            pageTitle: 'Signup',
+            errorMessage: null,
+            complete: true
+          });
+        });
     })
-    .catch(err => {
-      console.log(err);
-    });
+    .catch(err =>{ res.redirect('/'); });
 };
 
 exports.postLogout = (req, res, next) => {

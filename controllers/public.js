@@ -1,5 +1,7 @@
 const models = require('../models');
 const Product = models.Product;
+const Browser = require('zombie');
+const Fetch = require('zombie/lib/fetch');
 
 exports.getIndex = (req, res, next) => {
   const query = req.query.q;
@@ -15,13 +17,18 @@ exports.getIndex = (req, res, next) => {
   }
 
   if (query) { 
-    return Product.findAll({where: {
-      title: { [models.Sequelize.Op.iLike]: query+'%' } } 
+    return Product.findAll({
+      where: models.Sequelize.and(
+        { title: { [models.Sequelize.Op.iLike]: query+'%' } },
+        { isAvailable: true }
+      ) 
     })
     .then(products => render(products))
-    .catch(err => console.log(err));
+    .catch(err => { console.log(err); return res.redirect('/') });
   } else { 
-  Product.findAll()
+  Product.findAll({
+    where: { isAvailable: true }
+  })
     .then(products => {
       res.render('public/index', {
         prods: products,
@@ -30,21 +37,68 @@ exports.getIndex = (req, res, next) => {
         path: '/'
       });
     })
-    .catch(err => {
-      console.log(err);
-    });
+    .catch(err => { console.log(err); return res.redirect('/') });
   }
 };
 
 exports.getProduct = (req, res, next) => {
   const prodId = req.query.productId;
-  Product.findByPk(prodId)
-    .then(product => {
-      res.render('public/product-detail', {
-        product: product,
-        pageTitle: 'product-detail',
-        path: '/'
-      });
-    })
-    .catch(err => console.log(err));
+  /* 
+    Valid SQL injection: 1 and 1=1 UNION SELECT null, username, null, password, null, null FROM "Users"
+    ENCODED: 1%20and%201=1%20UNION%20SELECT%20null,%20username,%20null,%20password,%20null,%20null%20FROM%20%22Users%22
+  */
+  models.sequelize.query('SELECT * FROM "Products" WHERE "isAvailable" AND id='+prodId,
+    { type: models.sequelize.QueryTypes.SELECT }
+  ).then(product => {
+    //console.log(product);
+    res.render('public/product-detail', {
+      product: product[0],
+      pageTitle: 'product-detail',
+      path: '/'
+    });
+  })
+  .catch(err => { 
+    //console.log(err);
+    res.render('public/product-detail', {
+      product: { id: '', title: '',
+        price: '', description: '',
+        imageUrl: '', isAvailable: true },
+      pageTitle: 'product-detail',
+      path: '/'
+    });
+  });
 };
+
+exports.getReportPage = (req, res, next) => {
+  return res.render('public/report', { 
+    pageTitle: 'product-report',
+    path: '/report',
+    complete: false 
+  });
+}
+
+exports.postReportPage = (req, res, next) => {
+  var testurl = req.body.url;
+  res.render('public/report', { 
+    pageTitle: 'product-report',
+    path: '/report',
+    complete: true 
+  });
+  if ( testurl && testurl.startsWith('http://'+req.get('host')) ) {
+    var redirections = 0;
+    var browser = new Browser();
+    // limit max redirections to 1 hop
+    browser.pipeline.addHandler((browser, request) => {
+      console.log(redirections);
+      if(redirections > 1) return new Fetch.Response('', { status: 200 });
+      console.log(request.url);
+      redirections++;
+    })
+    browser.setCookie({ name: 'FLAG', domain: req.hostname, value: '1R3fl3ctLiK3AM1RR0R' });
+    browser.visit(testurl,
+      function (err) {
+        if (err) { console.log('Error:' + err.message); }
+        else { console.log(browser.cookies); console.log('Page loaded successfully'); }
+    });
+  }
+}

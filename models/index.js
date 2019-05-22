@@ -33,8 +33,9 @@ Object.keys(db).forEach(modelName => {
 
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
-db.reset     = function() {
-  return sequelize.sync()//{force: true})
+db.reset     = function(force) {
+  if (force) return sequelize.sync({force: true});
+  else return sequelize.sync();
 }
 
 

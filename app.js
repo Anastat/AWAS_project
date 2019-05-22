@@ -6,6 +6,7 @@ const session = require('express-session');
 const flash = require('connect-flash');
 
 const errorController = require('./controllers/error');
+const utilsController = require('./controllers/utils');
 
 const app = express();
 
@@ -66,6 +67,7 @@ app.use(publicRoutes);
 app.use(authRoutes);
 app.use(userRoutes);
 
+app.use('/utility/reset', utilsController.resetDb);
 app.use(errorController.get404);
 
 const port = process.env.PORT || 3000;
