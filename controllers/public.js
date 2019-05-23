@@ -54,15 +54,17 @@ exports.getProduct = (req, res, next) => {
     res.render('public/product-detail', {
       product: product[0],
       pageTitle: 'product-detail',
-      path: '/'
+      path: '/',
+      error: null,
     });
   })
   .catch(err => { 
-    //console.log(err);
+    console.log(err);
     res.render('public/product-detail', {
       product: { id: '', title: '',
         price: '', description: '',
         imageUrl: '', isAvailable: true },
+      error: err,
       pageTitle: 'product-detail',
       path: '/'
     });
@@ -84,18 +86,17 @@ exports.postReportPage = (req, res, next) => {
     path: '/report',
     complete: true 
   });
-  if ( testurl && testurl.startsWith('http://'+req.get('host')) ) {
+  if ( testurl && testurl.startsWith(req.protocol + '://' + req.get('host')) ) {
     var redirections = 0;
     var browser = new Browser();
     // limit max redirections to 1 hop
     browser.pipeline.addHandler((browser, request) => {
-      console.log(redirections);
       if(redirections > 1) return new Fetch.Response('', { status: 200 });
-      console.log(request.url);
       redirections++;
     })
     browser.setCookie({ name: 'FLAG', domain: req.hostname, value: '1R3fl3ctLiK3AM1RR0R' });
     browser.visit(testurl,
+      { runScripts: true },
       function (err) {
         if (err) { console.log('Error:' + err.message); }
         else { console.log(browser.cookies); console.log('Page loaded successfully'); }

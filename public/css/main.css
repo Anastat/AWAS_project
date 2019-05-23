@@ -49,6 +49,16 @@ form {
   height: 1.5rem;
 }
 
+.card-product .card-top {
+  height: 230px;
+  overflow: hidden;
+}
+
+.card-product .card-img-top {
+  object-fit: cover;
+}
+
 .card-product .card-body {
   padding: 2rem;
+  height: 150px;
 }

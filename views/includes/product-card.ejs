@@ -1,5 +1,7 @@
 <article class="card card-product">
-    <img class="card-img-top" src="<%= product.imageUrl %>" alt="<%= product.title %>">
+    <div class="card-top">
+        <img class="card-img-top" src="<%= product.imageUrl %>" alt="<%= product.title %>">
+    </div>
     <div class="card-body">
         <h5 class="card-title"><%= product.title %></h5>
         <h6 class="card-subtitle mb-2 text-muted">$ <%= product.price %></h6>
