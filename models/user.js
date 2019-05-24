@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
     timestamps: false
   })
   User.associate = function(models) {
-    User.hasOne(models.Cart, { onDelete: "CASCADE", foreignKey: { allowNull: true } });
+    User.belongsToMany(models.Product, { through: models.CartProduct } );
     User.hasMany(models.Order, { onDelete: 'CASCADE', foreignKey: { allowNull: true } });
   };
   User.beforeCreate((user, options) => {

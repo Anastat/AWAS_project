@@ -1,0 +1,28 @@
+<%- include('../includes/head.ejs') %>
+    <link rel="stylesheet" href="/css/orders.css">
+    </head>
+
+    <body>
+        <%- include('../includes/navigation.ejs') %>
+        <main class="centered">
+          <div class="container">
+            <div class="row">
+                <div class="col-sm-12 col-md-10 col-lg-8 mx-auto">
+                  <% if (errorMessage) { %>
+                    <div class="jumbotron">
+                        <h1 class="display-4">There was an error on your order</h1>
+                        <p class="lead"><%= errorMessage %></p>
+                        <p class="lead">Go back to <a href="/cart">your cart</a> </p>
+                    </div>
+                  <% } else { %>
+                    <div class="jumbotron">
+                        <h1 class="display-4">Success, your order has been paid</h1>
+                        <p class="lead">You have spent <%= total %> $</p>
+                        <p class="lead">See <a href="/orders">your orders</a> </p>
+                    </div>
+                  <% } %>
+                </div>
+            </div>
+          </div>
+        </main>
+        <%- include('../includes/end.ejs') %>

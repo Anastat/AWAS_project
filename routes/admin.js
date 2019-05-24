@@ -16,12 +16,12 @@ router.get('/edit-product/:productId', authorization.isAdmin, adminController.ge
 router.post('/add-product', authorization.isAdmin, [
   body('title', 'Title is required').not().isEmpty(),
   body('imageUrl', 'Image URL should be a valid URL').isURL(),
-  body('price', 'Price should be a positive number').isFloat({min: 0})
+  body('price', 'Price should be a positive number').isFloat({min: 0.01})
 ], adminController.postAddProduct);
 router.post('/edit-product', authorization.isAdmin, [
   body('title', 'Title is required').not().isEmpty(),
   body('imageUrl', 'Image URL should be a valid URL').isURL(),
-  body('price', 'Price should be a positive number').isFloat({min: 0})
+  body('price', 'Price should be a positive number').isFloat({min: 0.01})
 ], adminController.postEditProduct);
 
 module.exports = router;

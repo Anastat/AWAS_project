@@ -4,22 +4,44 @@
 
     <body>
         <%- include('../includes/navigation.ejs') %>
-        <main class="centered">
-            <% if (orders.length <= 0) { %>
-                <h1>Nothing there!</h1>
-            <% } else { %>
-                <ul class="orders">
-                    <% orders.forEach(order => { %>
-                        <li class="orders__item">
-                            <h1>Order - # <%= order._id %></h1>
-                            <ul class="orders__products">
-                                <% order.products.forEach(p => { %>
-                                    <li class="orders__products-item"><%= p.product.title %> (<%= p.quantity %>)</li>
+        <main>
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-12 col-md-10 col-lg-7 mx-auto">
+                        <% if (orders.length <= 0) { %>
+                            <h1>Nothing there!</h1>
+                        <% } else { %>
+                                <% orders.forEach(order => { %>
+                                <h4 class="d-flex justify-content-between">
+                                    <span>
+                                        <% if (order.total === 0) { %>FLAG:1D0n7W4nN4P4y
+                                        <% } else { %> Order - # <%= order.id %> <% } %>
+                                    </span>
+                                    <small>Paid $ <%= order.total %></small>
+                                </h4>
+                                <h5>
+                                    
+                                </h5>
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col" style="width: 70%">Product</th>
+                                            <th scope="col" style="width: 9%">Qnt</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    <% order.Products.forEach(p => { %>
+                                        <tr>
+                                            <td><%= p.title %></td>
+                                            <td>x<%= p.OrderProduct.quantity %></td>
+                                        </tr>
+                                    <% }); %>
+                                    </tbody>
+                                </table>
                                 <% }); %>
-                            </ul>
-                        </li>
-                    <% }); %>
-                </ul>
-            <% } %>
+                        <% } %>
+                    </div>
+                </div>
+            </div>
         </main>
         <%- include('../includes/end.ejs') %>

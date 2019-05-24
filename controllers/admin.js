@@ -27,7 +27,6 @@ exports.postAddProduct = (req, res, next) => {
       errorMessage: errors.array()[0].msg
     });
   }
-  console.log(req.body);
   Product.create({
     title: title,
     price: price,

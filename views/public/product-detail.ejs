@@ -5,6 +5,9 @@
 			<%- include('../includes/navigation.ejs') %>
 			<main>
 					<div class="container"> 
+            <div class="row">
+              <div class="col-sm-12 col-md-12 col-lg-10 mx-auto">
+              
               <% if (product) { %>
                 <% if (error) { %>
                   <div class="alert alert-danger" role="alert"><%= error %></div>
@@ -14,13 +17,17 @@
                     <img style="max-width: 100%" src="<%= product.imageUrl %>" alt="<%= product.title %>">
                   </div>
                   <div class="col-lg-6">
-                    <h2><%= product.title %></h2>
-                    <h4>price $<%= product.price %></h6>
-
+                    <h2 class="d-flex justify-content-between">
+                      <span><%= product.title %></span>
+                    </h2>
+                    <h4 class="d-flex justify-content-between">
+                      <span>price $<%= product.price %></span>
+                    </h4>
                     <% if (locals.isAuthenticated) { %>
-                        <% if (!locals.isAdmin) { %> <%- include('../includes/add-to-cart.ejs', {product: product}) %> 
-                        <% } else { %> <a href="/edit-product/<%= product.id %>?edit=true" class="btn btn-primary">Edit</a> <% } %>
+                          <% if (!locals.isAdmin) { %> <%- include('../includes/add-to-cart.ejs', {product: product}) %> 
+                          <% } else { %> <a href="/edit-product/<%= product.id %>?edit=true" class="btn btn-block btn-primary">Edit</a> <% } %>
                     <% } %>
+
 
                     <p><%= product.description %></p>
                   </div>
@@ -32,6 +39,8 @@
                 <p>Product not exist or has been removed</p>
                 <a href="/">Return to the shop</a>
               <% } %>
+              </div>
+            </div>
 					</div>
 					
 			</main>

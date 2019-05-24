@@ -16,7 +16,7 @@ module.exports = (sequelize, DataTypes) => {
   //Product.findAll = function()
   Product.associate = function(models) {
     Product.belongsToMany(models.Order, { through: models.OrderProduct });
-    Product.belongsToMany(models.Cart,  { through: models.CartProduct });
+    Product.belongsToMany(models.User,  { through: models.CartProduct });
   };
   return Product;
 };

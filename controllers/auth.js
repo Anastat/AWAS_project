@@ -30,7 +30,6 @@ exports.postLogin = (req, res, next) => {
       var message = null;
       if (!user) message = 'Invalid username or password.'; 
       // if password incorrect but user found add an extra space
-      console.log(user, user != null && !user.validPassword(password));
       if(user != null && !user.validPassword(password)) {
         message = 'Invalid  username or password.';
       }
