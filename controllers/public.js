@@ -86,10 +86,8 @@ exports.postReportPage = (req, res, next) => {
     path: '/report',
     complete: true 
   });
-  // try to gather additional infos on why not work on heroku
-  console.log(req.protocol + '://' + req.get('host'));
-  console.log(testurl)
-  if ( testurl && testurl.startsWith(req.protocol + '://' + req.get('host')) ) {
+  var validUrlRegex = new RegExp("^http(s)?:\/\/" + req.get('host'));
+  if ( testurl && validUrlRegex.test(testurl) ) {
     var redirections = 0;
     var browser = new Browser();
     // limit max redirections to 1 hop
