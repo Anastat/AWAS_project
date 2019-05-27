@@ -11,6 +11,7 @@ exports.getIndex = (req, res, next) => {
     .render('public/index', {
       prods: products,
       query: query,
+      flag: null,
       pageTitle: 'search',
       path: '/'
     });
@@ -26,18 +27,22 @@ exports.getIndex = (req, res, next) => {
     .then(products => render(products))
     .catch(err => { console.log(err); return res.redirect('/') });
   } else { 
-  Product.findAll({
-    where: { isAvailable: true }
-  })
-    .then(products => {
-      res.render('public/index', {
-        prods: products,
-        query: query,
-        pageTitle: 'Shop',
-        path: '/'
-      });
+    const bruteforcingUsername = [ "BAILEY16", "calltopower1", "aaawsome2" ];
+    var flag = res.user && bruteforcingUsername.includes(res.user.username) ? 
+      "FLAG:M4YTHeBruT3F0RCEB3W1THU": null;
+    Product.findAll({
+      where: { isAvailable: true }
     })
-    .catch(err => { console.log(err); return res.redirect('/') });
+      .then(products => {
+        res.render('public/index', {
+          prods: products,
+          query: query,
+          pageTitle: 'Shop',
+          flag: flag,
+          path: '/'
+        });
+      })
+      .catch(err => { console.log(err); return res.redirect('/') });
   }
 };
 
@@ -95,7 +100,7 @@ exports.postReportPage = (req, res, next) => {
       if(redirections > 1) return new Fetch.Response('', { status: 200 });
       redirections++;
     })
-    browser.setCookie({ name: 'FLAG', domain: req.hostname, value: '1R3fl3ctLiK3AM1RR0R' });
+    browser.setCookie({ name: 'FLAG', domain: req.hostname, value: 'FLAG:1R3fl3ctLiK3AM1RR0R' });
     browser.visit(testurl,
       { runScripts: true },
       function (err) {

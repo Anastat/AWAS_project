@@ -12,19 +12,16 @@ exports.resetDb = (req, res, next) => {
 
 function insertFlag() {
   return db.sequelize.query("INSERT INTO \"Users\" (username, password, is_admin) VALUES (?, ?, ?)", {
-    replacements: ['FLAG', 'L3T1TDr0PM4N', true ],
+    replacements: ['FLAG', 'FLAG:L3T1TDr0PM4N', true ],
     type: db.Sequelize.QueryTypes.INSERT
   });
 }
 
 function popolateUser() {
   return db.User.bulkCreate([
-    { username: 'test', password: 'hey', is_admin: true },
-    { username: 'foo', password: 'bar', is_admin: false },
-    { username: 'dsa', password: 'hey', is_admin: false },
-    { username: 'daas', password: 'hey', is_admin: false },
-    { username: 'ddadas', password: 'hey', is_admin: false },
-    { username: 'bdasdar', password: 'hey', is_admin: false },
+    { username: 'BAILEY16',     password: 'madison',   is_admin: true  },
+    { username: 'calltopower1', password: 'letmein',   is_admin: false },
+    { username: 'aaawsome2',    password: 'password',  is_admin: false },
   ])
 }
 
