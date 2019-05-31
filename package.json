@@ -22,7 +22,8 @@
   },
   "devDependencies": {},
   "scripts": {
-    "start": "node app.js"
+    "start": "node app.js",
+    "docker": "NODE_ENV=docker node app.js"
   },
   "repository": {
     "type": "git",
